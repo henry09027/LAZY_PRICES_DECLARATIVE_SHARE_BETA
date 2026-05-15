@@ -14,7 +14,7 @@ Returns a flat, tabular result set (similarity buckets × fiscal year × filing 
 Execute exactly:
 
 ```sql
-SELECT * FROM TABLE(QRSLLM_POC_DB.LAZY_PRICES_DECLARATIVE_SHARE_BETA.SIMILARITY_BUCKET_DISTRIBUTION({YEAR}));
+SELECT * FROM TABLE(QRSLLM_POC_DB.LAZY_PRICES_DECLARATIVE_SHARE_BETA.SP_LM_SIMILARITY_DISTRIBUTION({YEAR}));
 ```
 
 Substitute `{YEAR}` with the four-digit fiscal year as an integer literal (e.g. `2024`). Do not wrap the call in a `SELECT`, do not add a `LIMIT`, and do not pass additional arguments — the table function signature accepts exactly one `INTEGER`.
