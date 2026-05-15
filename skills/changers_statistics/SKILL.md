@@ -7,34 +7,34 @@ description: Flag the S&P 500 companies whose 10-K risk factor section changed t
 
 The audience is a portfolio manager. The job is to surface S&P 500 companies whose 10-K risk factor section changed substantially year-over-year, so the PM can read the underlying text and decide whether the change is material to their position.
 
-ExecutE the deployed Snowflake table function `QRSLLM_POC_DB.LAZY_PRICES_DECLARATIVE_SHARE_BETA.SP_YOY_RISK_CHANGERS`. The procedure encapsulates the filters, projection, ordering, and the 10-row limit, so every invocation returns an identical schema and identical ranking logic regardless of caller.
+ExecutE the deployed Snowflake table function `QRSLLM_POC_DB.LAZY_PRICES_DECLARATIVE_SHARE_BETA.SP_YOY_RISK_CHANGERS`. The table function encapsulates the filters, projection, ordering, and the 10-row limit, so every invocation returns an identical schema and identical ranking logic regardless of caller.
 
 ---
 
 ## 🎯 Execution Procedure — Follow Exactly
 
-### Step 1 — Call the stored procedure
+### Step 1 — Call the stored table function
 Execute exactly:
 
 ```sql
 SELECT * FROM TABLE(QRSLLM_POC_DB.LAZY_PRICES_DECLARATIVE_SHARE_BETA.SP_YOY_RISK_CHANGERS({YEAR}));
 ```
 
-Substitute `{YEAR}` with the four-digit fiscal year as an integer literal (e.g. `2024`). Do not wrap the call in a `SELECT`, do not add a `LIMIT`, and do not pass additional arguments — the procedure signature accepts exactly one `INTEGER`.
+Substitute `{YEAR}` with the four-digit fiscal year as an integer literal (e.g. `2024`). Do not wrap the call in a `SELECT`, do not add a `LIMIT`, and do not pass additional arguments — the table function signature accepts exactly one `INTEGER`.
 
 ### Step 2 — Render the result as a table
-Use the column mapping in the **Output Table Form** below. Format `LM_COSINE_SIMILARITY` to 2 decimal places. Format `RISK_REMOVED_ADDED_FLAG` values as the human-readable strings in the mapping table (e.g. `RISK_ADDED` → "Risk Added"). Preserve the row order returned by the procedure — it is already sorted ascending by similarity with `COMPANYID` as deterministic tie-break.
+Use the column mapping in the **Output Table Form** below. Format `LM_COSINE_SIMILARITY` to 2 decimal places. Format `RISK_REMOVED_ADDED_FLAG` values as the human-readable strings in the mapping table (e.g. `RISK_ADDED` → "Risk Added"). Preserve the row order returned by the table function — it is already sorted ascending by similarity with `COMPANYID` as deterministic tie-break.
 
-### Step 3 — If the procedure returns fewer than 20 rows
+### Step 3 — If the table function returns fewer than 10 rows
 Return whatever rows were produced and state the actual count in one short line above the table. Do **not** silently fall back to a different year or relax any filter.
 
 ---
 
-## Procedure Contract
+## Table Function Contract
 
-- **Fully qualified name:** `QRSLLM_POC_DB.HENRY_SCHEMA.SP_YOY_RISK_CHANGERS`
+- **Fully qualified name:** `QRSLLM_POC_DB.LAZY_PRICES_DECLARATIVE_SHARE_BETA.SP_YOY_RISK_CHANGERS`
 - **Input:** `YEAR_INPUT INTEGER` — single fiscal year, e.g. `2024`.
-- **Output:** nine-column table, at most 20 rows, ordered by `LM_COSINE_SIMILARITY ASC, COMPANYID ASC`.
+- **Output:** nine-column table, at most 10 rows, ordered by `LM_COSINE_SIMILARITY ASC, COMPANYID ASC`.
 - **Grain:** one row per `(companyid, next_perioddate)` — i.e. one row per company per fiscal-year 10-K.
 - **Baked-in filters:** `DATE_PART('year', next_perioddate) = YEAR_INPUT`, `lm_cosine_similarity IS NOT NULL`, `next_perioddate <= CURRENT_DATE`.
 - **Baked-in limit:** `LIMIT 10`.
@@ -59,15 +59,15 @@ Return whatever rows were produced and state the actual count in one short line 
 
 ## ❌ DOs and DON'Ts
 
-1. Do **not** re-create, alter, or replace the procedure from within this skill. The procedure is managed and deployed out-of-band; the skill is a pure consumer.
-2. Do **not** inline the ranking SQL as a substitute for the `CALL`. The point of the procedure is that filters, ordering, and the row limit are defined once, server-side.
+1. Do **not** re-create, alter, or replace the table function from within this skill. The table function is managed and deployed out-of-band; the skill is a pure consumer.
+2. Do **not** inline the ranking SQL as a substitute for the `CALL`. The point of the table function is that filters, ordering, and the row limit are defined once, server-side.
 3. Do **not** apply additional filters (sector, market cap, token-count thresholds, etc.) unless the user explicitly asks. The skill returns the unconditional top-10 by similarity for the requested year.
-4. Do **not** append a `LIMIT` to the `CALL`. The procedure already caps the result at 20 rows.
+4. Do **not** append a `LIMIT`. The table function already caps the result at 10 rows.
 5. Do **not** lowercase or quote-wrap column names. Preserve Snowflake-default UPPERCASE identifiers.
-6. Do **not** re-sort the result client-side. The procedure already orders by `LM_COSINE_SIMILARITY ASC, COMPANYID ASC` — keep that order.
+6. Do **not** re-sort the result client-side. The table function already orders by `LM_COSINE_SIMILARITY ASC, COMPANYID ASC` — keep that order.
 7. Do **not** interpret a low cosine similarity as a directional signal (bullish/bearish). It only flags magnitude of change.
-8. Do **not** silently fall back to a different year if `{YEAR}` returns fewer than 20 rows — return whatever rows match and say so in one line.
+8. Do **not** silently fall back to a different year if `{YEAR}` returns fewer than 10 rows — return whatever rows match and say so in one line.
 9. Do **not** plot any charts, keep the output clean and professional.
-10. **Do** display the required table, as required above in procedure step 2.
+10. **Do** display the required table, as required above in table function step 2.
 
 ---
