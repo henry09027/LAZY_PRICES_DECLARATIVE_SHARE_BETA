@@ -1,6 +1,6 @@
 ---
 name: Cosine Similarity Distribution Analysis Skill
-description: Analyzes the distribution of LM cosine similarity scores across pre-defined buckets for S&P 500 10-K risk factor filings, filtered by fiscal year. Execution is a single CALL to a deployed Snowflake stored table function that returns a deterministic, bucket-by-bucket aggregation; the skill renders that result set as a table.
+description: Analyzes the distribution of LM cosine similarity scores across pre-defined buckets for S&P 500 10-K risk factor filings, filtered by fiscal year. Execute the Snowflake stored table function that returns a deterministic, bucket-by-bucket aggregation; the skill renders that result set as a table.
 ---
 
 ## Objective
@@ -10,7 +10,7 @@ Returns a flat, tabular result set (similarity buckets × fiscal year × filing 
 
 ## 🎯 EXECUTION PROCEDURE — FOLLOW EXACTLY
 
-### Step 1 — Call the stored table function
+### Step 1 — Execute the stored table function
 Execute exactly:
 
 ```sql
@@ -52,6 +52,6 @@ State (i) total filing count for the year, (ii) the shape of the distribution (w
 
 1. **Do not re-create, alter, or replace the table function** from within this skill. The table function is managed and deployed out-of-band; the skill is a pure consumer.
 2. **Do not inline the bucket-logic SQL** as a substitute. The point of the table  function is that buckets and filters are defined once, server-side — ad-hoc SQL defeats reproducibility.
-3. **Do not append a `LIMIT`** to the `CALL`. The table function already returns at most 6 rows per year.
+3. **Do not append a `LIMIT`**. The table function already returns at most 6 rows per year.
 4. **Do not lowercase or quote-wrap column names** in display. Preserve Snowflake-default UPPERCASE identifiers.
 ---
