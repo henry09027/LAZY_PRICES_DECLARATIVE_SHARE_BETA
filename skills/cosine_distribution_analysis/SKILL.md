@@ -1,6 +1,6 @@
 ---
 name: Cosine Similarity Distribution Analysis Skill
-description: Analyzes the distribution of LM cosine similarity scores across pre-defined buckets for S&P 500 10-K risk factor filings, filtered by fiscal year. Execution is a single CALL to a deployed Snowflake stored procedure that returns a deterministic, bucket-by-bucket aggregation; the skill renders that result set as a table.
+description: Analyzes the distribution of LM cosine similarity scores across pre-defined buckets for S&P 500 10-K risk factor filings, filtered by fiscal year. Execution is a single CALL to a deployed Snowflake stored table function that returns a deterministic, bucket-by-bucket aggregation; the skill renders that result set as a table.
 ---
 
 ## Objective
@@ -10,17 +10,17 @@ Returns a flat, tabular result set (similarity buckets × fiscal year × filing 
 
 ## 🎯 EXECUTION PROCEDURE — FOLLOW EXACTLY
 
-### Step 1 — Call the stored procedure
+### Step 1 — Call the stored table function
 Execute exactly:
 
 ```sql
 SELECT * FROM TABLE(QRSLLM_POC_DB.LAZY_PRICES_DECLARATIVE_SHARE_BETA.SIMILARITY_BUCKET_DISTRIBUTION({YEAR}));
 ```
 
-Substitute `{YEAR}` with the four-digit fiscal year as an integer literal (e.g. `2024`). Do not wrap the call in a `SELECT`, do not add a `LIMIT`, and do not pass additional arguments — the procedure signature accepts exactly one `INTEGER`.
+Substitute `{YEAR}` with the four-digit fiscal year as an integer literal (e.g. `2024`). Do not wrap the call in a `SELECT`, do not add a `LIMIT`, and do not pass additional arguments — the table function signature accepts exactly one `INTEGER`.
 
 ### Step 2 — Display the data in a table
-Render the returned result set using the column order and types in the *Output Table Form* below. The procedure returns Snowflake-default UPPERCASE identifiers — preserve them. Do not rename, re-case, or post-process columns.
+Render the returned result set using the column order and types in the *Output Table Form* below. The table function returns Snowflake-default UPPERCASE identifiers — preserve them. Do not rename, re-case, or post-process columns.
 
 ### Step 3 — Narrate in ≤ 4 sentences
 State (i) total filing count for the year, (ii) the shape of the distribution (where mass concentrates), and (iii) any interesting observations across buckets. Do not enumerate every bucket.
