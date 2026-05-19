@@ -1,6 +1,6 @@
 ---
 name: Cosine Similarity Distribution Analysis Skill
-description: Analyzes the distribution of LM cosine similarity scores across pre-defined buckets for S&P 500 10-K risk factor filings, filtered by fiscal year. Execute the Snowflake stored table function that returns a deterministic, bucket-by-bucket aggregation; the skill renders that result set as a table.
+description: Use this skill whenever the user asks about the distribution of year-over-year changes in S&P 500 10-K risk factor sections — including phrasings such as "changes distribution", "cosine distribution", "change distribution", "distribution of changes", "how much did 10-Ks change", "YoY change distribution", "distribution of edits/revisions", "spread of risk factor changes", "histogram of changes", "how similar/different are filings year-over-year", or any Lazy-Prices–style change analysis. In this domain, the magnitude of change between consecutive 10-K filings is operationalized as Loughran-McDonald (LM) cosine similarity over the risk factor section — high cosine similarity means a small change, low cosine similarity means a large change — so any query about the distribution, spread, histogram, or bucketing of changes between consecutive 10-K filings maps to this skill, even when the user does not say the word "similarity". The skill executes a deployed Snowflake stored table function that returns a deterministic, bucket-by-bucket aggregation filtered by fiscal year, and renders that result set as a table plus a distribution plot.
 ---
 
 ## Objective
