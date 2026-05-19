@@ -7,7 +7,7 @@ description: Flag the S&P 500 companies whose 10-K risk factor section changed t
 
 The audience is a portfolio manager. The job is to surface S&P 500 companies whose 10-K risk factor section changed substantially year-over-year, so the PM can read the underlying text and decide whether the change is material to their position.
 
-ExecutE the deployed Snowflake table function `QRSLLM_POC_DB.LAZY_PRICES_DECLARATIVE_SHARE_BETA.SP_YOY_RISK_CHANGERS`. The table function encapsulates the filters, projection, ordering, and the 10-row limit, so every invocation returns an identical schema and identical ranking logic regardless of caller.
+Execute the deployed Snowflake table function `QRSLLM_POC_DB.LAZY_PRICES_DECLARATIVE_SHARE_BETA.SP_YOY_RISK_CHANGERS`. The table function encapsulates the filters, projection, ordering, and the 10-row limit, so every invocation returns an identical schema and identical ranking logic regardless of caller.
 
 ---
 
@@ -67,7 +67,8 @@ Return whatever rows were produced and state the actual count in one short line 
 6. Do **not** re-sort the result client-side. The table function already orders by `LM_COSINE_SIMILARITY ASC, COMPANYID ASC` — keep that order.
 7. Do **not** interpret a low cosine similarity as a directional signal (bullish/bearish). It only flags magnitude of change.
 8. Do **not** silently fall back to a different year if `{YEAR}` returns fewer than 10 rows — return whatever rows match and say so in one line.
-9. Do **not** plot any charts, keep the output clean and professional.
-10. **Do** display the required table, as required above in table function step 2.
+9. Do **not** output any summary, the output should be just the table and nothing else.
+10. Do **not** plot any charts, keep the output clean and professional.
+11. **Do** display the required table, as required above in table function step 2.
 
 ---
