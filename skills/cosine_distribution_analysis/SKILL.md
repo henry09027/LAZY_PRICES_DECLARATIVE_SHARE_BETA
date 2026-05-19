@@ -20,10 +20,10 @@ SELECT * FROM TABLE(QRSLLM_POC_DB.LAZY_PRICES_DECLARATIVE_SHARE_BETA.SP_LM_SIMIL
 Substitute `{YEAR}` with the four-digit fiscal year as an integer literal (e.g. `2024`). Do not wrap the call in a `SELECT`, do not add a `LIMIT`, and do not pass additional arguments — the table function signature accepts exactly one `INTEGER`.
 
 ### Step 2 — Display the data in a table
-Render the returned result set using the column order and types in the *Output Table Form* below. The table function returns Snowflake-default UPPERCASE identifiers — preserve them. Do not rename, re-case, or post-process columns.
+Render the returned result set using the column order and types in the *Output Table Form* below. The table function returns Snowflake-default UPPERCASE identifiers — preserve them. Do not rename, re-case, or post-process columns. Accompany the table with a distribution plot.
 
 ### Step 3 — Narrate in ≤ 4 sentences
-State (i) total filing count for the year, (ii) the shape of the distribution (where mass concentrates), and (iii) any interesting observations across buckets. Do not enumerate every bucket.
+State (i) total filing count for the year, (ii) the shape of the distribution (where mass concentrates), and (iii) any interesting observations across buckets. Narrate using bullet points, do not enumerate every bucket.
 
 ---
 
