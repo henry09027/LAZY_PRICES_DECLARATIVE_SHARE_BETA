@@ -63,9 +63,9 @@ Rules:
 
 For each category, pick **one** key sentence that best represents the theme. Prefer the bullet that is most company-specific (names a product, regulator, geography, or counterparty) over generic boilerplate. Trim to ≤ 20 words with `…` if needed; do not rewrite.
 
-### 5. Render the subtle changes as a table
+### 5. Render the subtle changes as 5 seperate tables
 
-For Subtle Changes, do not categorize. Render the (up to 5) bullets directly as a markdown table with four rows: **Risk Heading**, **Prior Year**, **Current Year**, **Why it matters**.
+For Subtle Changes, do not categorize. Render the (up to 5) bullets directly as 5 markdown tables each with four rows: **Risk Heading**, **Prior Year**, **Current Year**, **Why it matters**.
 
 In the Prior Year and Current Year rows, **bold the specific words that changed** using `**…**`. Apply bolding only to the tokens that differ between the two excerpts — not the whole phrase. Keep each excerpt ≤ 25 words; trim with `…`.
 
@@ -88,10 +88,29 @@ Render inline markdown:
 
 #### Subtle Changes in Existing Risks
 
-| Risk Heading | {heading} |---|---|
-| Prior Year | …**{old phrase}**… |---|---|
-| Current Year | …**{new phrase}**… |---|---|
-| Why it matters | {one-sentence rationale} |---|---|
+1.
+| Risk Heading | {heading} |
+| Prior Year | …**{old phrase}**… |
+| Current Year | …**{new phrase}**… |
+| Why it matters | {one-sentence rationale} |
+
+**Net shift:** {one sentence — dominant added theme vs dominant removed theme}.
+
+2.
+| Risk Heading | {heading} |
+| Prior Year | …**{old phrase}**… |
+| Current Year | …**{new phrase}**… |
+| Why it matters | {one-sentence rationale} |
+
+**Net shift:** {one sentence — dominant added theme vs dominant removed theme}.
+
+...
+
+5.
+| Risk Heading | {heading} |
+| Prior Year | …**{old phrase}**… |
+| Current Year | …**{new phrase}**… |
+| Why it matters | {one-sentence rationale} |
 
 **Net shift:** {one sentence — dominant added theme vs dominant removed theme}.
 ```
